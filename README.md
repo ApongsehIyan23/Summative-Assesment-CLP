@@ -39,6 +39,7 @@ All data is persisted to the browser's `localStorage` so events survive page ref
 |---|---|
 | 🌐 **GitHub Pages (Live)** | https://ApongsehIyan23.github.io/Summative-Assesment-CLP |
 | 📁 **Repository** | https://github.com/ApongsehIyan23/Summative-Assesment-CLP |
+| **Demo Video** | https://youtu.be/7eFjRjzLBWk
 
 ---
 
