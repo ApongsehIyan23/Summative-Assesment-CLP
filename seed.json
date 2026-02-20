@@ -1,0 +1,163 @@
+[
+  {
+    "title": "Morning Yoga and Mindfulness Session",
+    "date": "2026-02-20",
+    "duration": "1",
+    "tag": "wellness-fitness-lifestyle",
+    "description": "Start the day with a guided yoga flow and breathing exercises on the campus lawn."
+  },
+  {
+    "title": "Intro to Blockchain Technology",
+    "date": "2026-02-20",
+    "duration": "2",
+    "tag": "tech-education-innovation",
+    "description": "Overview of blockchain fundamentals, smart contracts, and decentralized applications."
+  },
+  {
+    "title": "Basketball Intra-Campus Tournament",
+    "date": "2026-02-21",
+    "duration": "4",
+    "tag": "basketball-sports-competition",
+    "description": "Round robin tournament between campus halls. Register your team at the sports desk by Feb 19."
+  },
+  {
+    "title": "Creative Writing Open Mic",
+    "date": "2026-02-21",
+    "duration": "2",
+    "tag": "arts-culture-expression",
+    "description": "Share your poetry, short stories, or spoken word pieces with the campus community."
+  },
+  {
+    "title": "Climate Change Panel Discussion",
+    "date": "2026-02-22",
+    "duration": "1.5",
+    "tag": "environmental-awareness-advocacy",
+    "description": "Faculty and student activists discuss sustainable practices and campus green initiatives."
+  },
+  {
+    "title": "Resume and LinkedIn Workshop",
+    "date": "2026-02-23",
+    "duration": "2",
+    "tag": "career-development-skills",
+    "description": "Practical workshop on crafting standout resumes and optimizing your LinkedIn profile for recruiters."
+  },
+  {
+    "title": "African Drumming Cultural Night",
+    "date": "2026-02-23",
+    "duration": "3",
+    "tag": "cultural-heritage-celebration",
+    "description": "Live drumming performances and dance showcasing traditional rhythms from across the continent."
+  },
+  {
+    "title": "Data Structures Study Bootcamp",
+    "date": "2026-02-24",
+    "duration": "3.5",
+    "tag": "academic-support-programming",
+    "description": "Intensive peer-led review of trees, graphs, and dynamic programming ahead of midterm exams."
+  },
+  {
+    "title": "Campus Photography Exhibition",
+    "date": "2026-02-24",
+    "duration": "2",
+    "tag": "arts-exhibition-photography",
+    "description": "Student photographers showcase their best shots from the past semester in the main hall gallery."
+  },
+  {
+    "title": "Football Five-a-Side League",
+    "date": "2026-02-25",
+    "duration": "2.5",
+    "tag": "football-sports-recreation",
+    "description": "Weekly five-a-side matches on the main pitch. All skill levels welcome, just show up and play."
+  },
+  {
+    "title": "Entrepreneurship Pitch Night",
+    "date": "2026-02-25",
+    "duration": "3",
+    "tag": "startup-innovation-business",
+    "description": "Students pitch their business ideas to a panel of judges and alumni investors for seed funding."
+  },
+  {
+    "title": "Mental Health First Aid Training",
+    "date": "2026-02-26",
+    "duration": "4",
+    "tag": "wellness-training-community",
+    "description": "Certified training session on how to recognize and respond to mental health crises among peers."
+  },
+  {
+    "title": "Campus Radio Launch Party",
+    "date": "2026-02-26",
+    "duration": "2.5",
+    "tag": "media-arts-campus",
+    "description": "Celebrate the launch of the new student-run campus radio station with live DJ sets and giveaways."
+  },
+  {
+    "title": "Coding Interview Prep Session",
+    "date": "2026-02-26",
+    "duration": "3",
+    "tag": "tech-career-programming",
+    "description": "Mock coding interviews with senior students covering LeetCode patterns and whiteboard problem solving."
+  },
+  {
+    "title": "Nutrition and Healthy Eating Seminar",
+    "date": "2026-02-26",
+    "duration": "1.5",
+    "tag": "health-wellness-education",
+    "description": "Campus dietitian shares practical tips on eating well on a student budget throughout the semester."
+  },
+  {
+    "title": "French Language Exchange Meetup",
+    "date": "2026-02-27",
+    "duration": "1.5",
+    "tag": "language-exchange-culture",
+    "description": "Conversational French practice session pairing fluent speakers with beginners in a relaxed setting."
+  },
+  {
+    "title": "UI and UX Design Workshop",
+    "date": "2026-02-27",
+    "duration": "3",
+    "tag": "design-tech-creativity",
+    "description": "Hands-on Figma session covering wireframing, prototyping, and usability testing principles."
+  },
+  {
+    "title": "Campus Sustainability Fair",
+    "date": "2026-02-28",
+    "duration": "5",
+    "tag": "environmental-community-action",
+    "description": "Stalls from eco-focused student clubs, upcycling demos, and a zero-waste pledge campaign."
+  },
+  {
+    "title": "Debate Club Practice Round",
+    "date": "2026-03-01",
+    "duration": "2",
+    "tag": "debate-public-speaking",
+    "description": "Practice session on the motion: remote work does more harm than good for university graduates."
+  },
+  {
+    "title": "Swimming Gala Qualifiers",
+    "date": "2026-03-02",
+    "duration": "3",
+    "tag": "swimming-sports-competition",
+    "description": "Qualifying heats for the inter-university swimming gala. Students must pre-register with the sports office."
+  },
+  {
+    "title": "Artificial Intelligence Ethics Forum",
+    "date": "2026-03-03",
+    "duration": "2",
+    "tag": "tech-ethics-society",
+    "description": "Open forum exploring bias in AI systems, data privacy concerns, and the role of regulation in tech."
+  },
+  {
+    "title": "Community Volunteer Day",
+    "date": "2026-03-04",
+    "duration": "6",
+    "tag": "community-service-outreach",
+    "description": "Campus-wide volunteer initiative supporting local schools with tutoring, painting, and resource donations."
+  },
+  {
+    "title": "End of February Bonfire Social",
+    "date": "2026-03-06",
+    "duration": "3",
+    "tag": "social-networking-community",
+    "description": "Outdoor bonfire evening to wrap up the month. Bring snacks, meet new people, and enjoy live acoustic sets."
+  }
+]
