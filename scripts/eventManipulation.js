@@ -102,11 +102,21 @@ function prefillFormForEdit(event) {
     form.querySelector('#evt-tag').value = event.tag;
     form.querySelector('#evt-description').value = event.description;
     
+    // Manually trigger validation with a small delay
+    setTimeout(() => {
+        ['evt-title', 'evt-date', 'evt-duration', 'evt-tag', 'evt-description'].forEach(id => {
+            const field = document.getElementById(id);
+            const event = new Event('input', { bubbles: true });
+            field.dispatchEvent(event);
+        });
+    }, 100);
+    
     form.setAttribute('data-edit-id', event.id);
     
     document.getElementById('submit-form-button').innerHTML = 
         '<i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Update Event';
 }
+
 
 function escapeHtml(text) {
     const div = document.createElement('div');
