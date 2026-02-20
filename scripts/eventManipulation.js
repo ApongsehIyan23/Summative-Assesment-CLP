@@ -232,3 +232,63 @@ export function sortEvents(orderBy) {
     }
 }
 
+
+
+export function drawStatisticsGraph() {
+    const events = getEvents();
+    if (events.length === 0) return;
+    const eventTags = events.map(event => event.tag);
+    
+    // Split each tag by hyphens and flatten into one array
+    const allWords = eventTags.flatMap(tag => tag.split('-'));
+    
+    let tagCount = {};
+    allWords.forEach(word => { tagCount[word] = (tagCount[word] || 0) + 1; });
+
+    const maxTag = Math.max(...Object.values(tagCount));
+    const sortedTags = Object.entries(tagCount).sort((a, b) => b[1] - a[1]);
+    let htmlContent = '';
+    for(const [tag, count] of sortedTags) {
+        htmlContent += `
+            <div class="tag-bar-row">
+                <span class="tag-bar-label">${escapeHtml(tag)}</span>
+                <div class="tag-bar-track">
+                    <div class="tag-bar-fill" style="width: ${(count / maxTag) * 100}%"></div>
+                </div>
+                <span class="tag-bar-count">${count}</span>
+            </div>
+        `;
+    }
+    
+    document.getElementById('tag-breakdown').innerHTML = htmlContent;
+}
+
+export function setupWeeklyEvents() {
+    const events = getEvents();
+    if (events.length === 0) return;
+    const evt_dates = events.map(event => event.date);
+    const next7Days = [];
+    for (let i = 0; i < 7; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        next7Days.push(date.toLocaleDateString('en-CA')); // format as YYYY-MM-DD
+    }
+
+    const frequencyDates = _.countBy(evt_dates, date => next7Days.includes(date) ? date : 'other');
+    delete frequencyDates['other']; // remove events that are not in the next 7 days
+    const maxFreq = Math.max(...Object.values(frequencyDates), 0);
+
+    const sortedDates = Object.entries(frequencyDates).sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    let htmlContent = '';
+    for (const [date, count] of sortedDates) {
+        htmlContent += `
+            <div class="chart-bar-wrap">
+                <div class="chart-bar" style="height: ${(count / maxFreq) * 100}%"></div>
+                <span class="chart-day">${escapeHtml(new Date(date).toLocaleDateString('en-US', {weekday: 'long'}))}</span>
+                <span class="tag-bar-count">${count}</span>
+                </div>`;
+    }
+    document.getElementById('chart-bars').innerHTML = htmlContent;
+}
+
+
