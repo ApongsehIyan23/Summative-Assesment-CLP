@@ -292,3 +292,96 @@ export function setupWeeklyEvents() {
 }
 
 
+export function exportEvents() {
+    const events = getEvents();
+    if (events.length === 0) {
+        alert('No events to export!');
+        return;
+    }
+    const jsonstr = JSON.stringify(events, null, 2); 
+    const file = new Blob([jsonstr], {type: 'application/json'}); 
+    const link = document.createElement('a'); 
+    link.href = URL.createObjectURL(file);
+
+    const date = [new Date().getFullYear(), (new Date().getMonth() + 1).toString().padStart(2, '0'), new Date().getDate().toString().padStart(2, '0')].join('-');
+    link.download = `campus-events-${date}.json`; // filename with current date for better organization
+    document.body.appendChild(link); 
+    link.click(); 
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href); // clean up the URL object from the memory
+}
+
+
+function compareArrays(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+    return arr1.every((value, index) => value === arr2[index]); 
+}
+
+export function importEvents(file) {
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const fileContent = event.target.result;
+        try {
+            const importedEvents = JSON.parse(fileContent);
+            if (!Array.isArray(importedEvents)) {
+                alert('Invalid file format: Expected an array of events.');
+                return;
+            }
+            
+            let numberOfEvents = 0;
+            let errorMessages = [];
+            
+            const expectedKeys = ['title', 'date', 'duration', 'tag', 'description'];
+            
+            for (const event of importedEvents) {
+                // Check if keys match
+                if (!compareArrays(Object.keys(event), expectedKeys)) { 
+                    errorMessages.push(`Event with title "${event.title || 'N/A'}" has invalid keys.`);
+                    continue;
+                }
+                
+                // Validate each field
+                const isTitleValid = validateTitle(event.title);
+                const isDateValid = validateDate(event.date);
+                const isDurationValid = validateDuration(event.duration);
+                const isTagValid = validateTag(event.tag);
+                const isDescriptionValid = validateDescription(event.description);
+                
+                // Check if all validations pass
+                if (isTitleValid && isDateValid && isDurationValid && isTagValid && isDescriptionValid) {
+                    // Save and get the complete event with id and color
+                    const savedEvent = saveEvent(event);
+                    
+                    // Create card and add to grid
+                    const grid = document.getElementById('events-grid');
+                    const emptyState = document.getElementById('empty-state');
+                    const card = createCard(savedEvent);
+                    
+                    emptyState.hidden = true;
+                    grid.appendChild(card);
+                    
+                    numberOfEvents++;
+                } else {
+                    errorMessages.push(`Event "${event.title || 'N/A'}" failed validation.`);
+                }
+            }
+            
+            // Update stats after all events are imported
+            updateStats();
+            
+            // Show results
+            if (errorMessages.length > 0) {
+                alert(`Imported ${numberOfEvents} events. ${errorMessages.length} errors found. Check console for details.`);
+                console.log('Import Errors:', errorMessages);
+            } else {
+                alert(`${numberOfEvents} events imported successfully!`);
+            }
+            
+        } catch (e) {
+            alert('Error parsing JSON: ' + e.message);
+        }
+    };
+    
+    reader.readAsText(file);
+}
