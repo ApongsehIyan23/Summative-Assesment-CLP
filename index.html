@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Life Planner</title>
+
+  <!-- Google Fonts — Poppins -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+  <!-- Accesibility Content (Skip directly to main content)-->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-wrapper">
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+      <!-- Logo -->
+      <div class="sidebar-logo">
+        <i class="fa-solid fa-landmark" aria-hidden="true"></i>
+        <span class="sidebar-logo-text">CampusLife</span>
+      </div>
+
+      <!-- Nav links -->
+      <nav>
+        <ul class="sidebar-nav" role="list">
+          <li>
+            <button
+              class="nav-item active"
+              data-section="dashboard"
+              aria-current="page"
+              aria-label="Dashboard"
+            >
+              <i class="fa-solid fa-house" aria-hidden="true"></i>
+              <span class="nav-label">Dashboard</span>
+            </button>
+          </li>
+          <li>
+            <button
+              class="nav-item"
+              data-section="create"
+              aria-label="Create Event"
+            >
+              <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+              <span class="nav-label">Create Event</span>
+            </button>
+          </li>
+          <li>
+            <button
+              class="nav-item"
+              data-section="statistics"
+              aria-label="Statistics"
+            >
+              <i class="fa-solid fa-chart-bar" aria-hidden="true"></i>
+              <span class="nav-label">Statistics</span>
+            </button>
+          </li>
+          <li>
+            <button
+              class="nav-item"
+              data-section="settings"
+              aria-label="Settings"
+            >
+              <i class="fa-solid fa-gear" aria-hidden="true"></i>
+              <span class="nav-label">Settings</span>
+            </button>
+          </li>
+          <li>
+            <button
+              class="nav-item"
+              data-section="about"
+              aria-label="About"
+            >
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+              <span class="nav-label">About</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar footer -->
+      <div class="sidebar-footer">
+        <button class="sidebar-action-btn" aria-label="Import JSON (shortcut: i)" id="import-btn">
+          <i class="fa-solid fa-file-import" aria-hidden="true"></i>
+          <span class="nav-label">Import</span>
+        </button>
+        <button class="sidebar-action-btn" aria-label="Export JSON (shortcut: d)" id="export-btn">
+          <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+          <span class="nav-label">Export</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- 
+         MAIN CONTENT AREA  -->
+    <div class="main-container">
+
+      <!-- Top bar (mobile header) -->
+      <header class="top-bar" role="banner">
+        <div class="top-bar-logo">
+          <i class="fa-solid fa-landmark" aria-hidden="true"></i>
+          <span>CampusLife</span>
+        </div>
+        <div class="top-bar-actions">
+          <button class="icon-btn" aria-label="Import JSON">
+            <i class="fa-solid fa-file-import" aria-hidden="true"></i>
+          </button>
+          <button class="icon-btn" aria-label="Export JSON">
+            <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- ARIA live region — status messages -->
+      <div
+        id="status-message"
+        class="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+
+      <!-- ARIA live region — alerts (cap exceeded etc.) -->
+      <div
+        id="alert-message"
+        class="sr-only"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      ></div>
+
+      <!-- ── MAIN ── -->
+      <main id="main-content" tabindex="-1">
+
+        <!-- Section: Dashboard/Landing page-->
+        <section
+          id="section-dashboard"
+          class="page-section active"
+          aria-labelledby="dashboard-heading"
+        >
+          <div class="section-header">
+            <div>
+              <h1 id="dashboard-heading" class="section-title">Dashboard</h1>
+              <p class="section-subtitle">All your campus events in one place</p>
+            </div>
+            <button class="btn btn-primary" aria-label="Add new event" id="createEvent-button">
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              <span>Add Event</span>
+            </button>
+          </div>
+
+
+          <div class="hero-banner">
+            <img src="alu-image.jpg" alt="Campus life" class="hero-img" />
+          <!-- Stats cards -->
+          <div class="stats-grid" role="region" aria-label="Event statistics">
+            <div class="stat-card">
+              <div class="stat-icon" aria-hidden="true">
+                <i class="fa-solid fa-calendar-days"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Total Events</span>
+                <span class="stat-value" id="stat-total">0</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--amber" aria-hidden="true">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Total Hours</span>
+                <span class="stat-value" id="stat-hours">0h</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--green" aria-hidden="true">
+                <i class="fa-solid fa-tag"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Top Tag</span>
+                <span class="stat-value" id="stat-top-tag">—</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--red" aria-hidden="true">
+                <i class="fa-solid fa-fire"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">This Week</span>
+                <span class="stat-value" id="stat-week">0</span>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <!-- 7-day trend chart placeholder -->
+          <div class="chart-card" role="region" aria-label="Events over the last 7 days">
+            <h2 class="chart-title">
+              <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+              Events in the Next 7 Days
+            </h2>
+            <div class="chart-bars" id="chart-bars" aria-hidden="true">
+              <!-- JS will render bars here -->
+            </div>
+          </div>
+
+          <!-- Search + Sort toolbar -->
+          <div class="toolbar" role="search">
+            <div class="search-wrap">
+              <label for="search-input" class="sr-only">Search events by regex</label>
+              <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+              <input
+                type="text"
+                id="search-input"
+                class="search-input"
+                placeholder="Search events… e.g. study or ^@tag:sports"
+                autocomplete="off"
+              />
+              <span id="search-error" class="search-error" role="alert" aria-live="polite"></span>
+            </div>
+            <div class="toolbar-right">
+              <label for="sort-select" class="sr-only">Sort events</label>
+              <select id="sort-select" class="sort-select">
+                <option value="date-asc">Date (Newest)</option>
+                <option value="date-desc">Date (Oldest)</option>
+                <option value="title-asc">Title A → Z</option>
+                <option value="title-desc">Title Z → A</option>
+                <option value="duration-asc">Duration ↑</option>
+                <option value="duration-desc">Duration ↓</option>
+              </select>
+              <label class="toggle-label">
+                <input type="checkbox" id="case-sensitive" />
+                <span>Case sensitive</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Events grid -->
+          <div
+            id="events-grid"
+            class="events-grid"
+            role="list"
+            aria-label="Events list"
+          >
+            <!-- JS will render event cards here -->
+
+            <!-- Empty state (shown when no events) -->
+            <div class="empty-state" id="empty-state">
+              <i class="fa-solid fa-calendar-xmark" aria-hidden="true"></i>
+              <p>No events yet — click <strong>Add Event</strong> to get started!</p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- SECTION: CReate Event Page -->
+        <section
+          id="section-create"
+          class="page-section"
+          aria-labelledby="create-heading"
+          hidden
+        >
+          <div class="section-header">
+            <div>
+              <h1 id="create-heading" class="section-title">Create Event</h1>
+              <p class="section-subtitle">Fill in the details below to add a new event</p>
+            </div>
+          </div>
+          <div class="form-card">
+            <form id="create-event-form" novalidate>
+              <div class="form-grid">
+
+      <!-- Event name -->
+      <div class="form-group form-group--full">
+        <label class="form-label" for="evt-title">
+          Event Name <span class="required" aria-label="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="evt-title"
+          name="title"
+          class="form-input"
+          placeholder="e.g. Study Group — Final Exams"
+          autocomplete="off"
+          aria-describedby="evt-title-error evt-title-hint"
+          required
+        />
+        <span class="form-hint" id="evt-title-hint">
+          No leading or trailing spaces allowed
+        </span>
+        <span class="form-error" id="evt-title-error" role="alert" aria-live="polite"></span>
+        <span class="form-success" id="evt-title-success" role="status" aria-live="polite"></span>
+      </div>
+
+      <!-- Due date -->
+      <div class="form-group">
+        <label class="form-label" for="evt-date">
+          Due Date <span class="required" aria-label="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="evt-date"
+          name="date"
+          class="form-input"
+          placeholder="YYYY-MM-DD"
+          autocomplete="off"
+          aria-describedby="evt-date-error evt-date-hint"
+          required
+        />
+        <span class="form-hint" id="evt-date-hint">
+          Format: YYYY-MM-DD e.g. 2026-03-15
+        </span>
+        <span class="form-error" id="evt-date-error" role="alert" aria-live="polite"></span>
+        <span class="form-success" id="evt-date-success" role="status" aria-live="polite"></span>
+      </div>
+
+      <!-- Duration -->
+      <div class="form-group">
+        <label class="form-label" for="evt-duration">
+          Duration (hours) <span class="required" aria-label="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="evt-duration"
+          name="duration"
+          class="form-input"
+          placeholder="e.g. 2 or 1.5"
+          autocomplete="off"
+          aria-describedby="evt-duration-error evt-duration-hint"
+          required
+        />
+        <span class="form-hint" id="evt-duration-hint">
+          Enter hours e.g. 2 or 1.5
+        </span>
+        <span class="form-error" id="evt-duration-error" role="alert" aria-live="polite"></span>
+        <span class="form-success" id="evt-duration-success" role="status" aria-live="polite"></span>
+      </div>
+
+      <!-- Tag -->
+      <div class="form-group">
+        <label class="form-label" for="evt-tag">
+          Tag <span class="required" aria-label="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="evt-tag"
+          name="tag"
+          class="form-input"
+          placeholder="e.g. study or social-event"
+          autocomplete="off"
+          aria-describedby="evt-tag-error evt-tag-hint"
+          required
+        />
+        <span class="form-hint" id="evt-tag-hint">
+          Letters, spaces, and hyphens only
+        </span>
+        <span class="form-error" id="evt-tag-error" role="alert" aria-live="polite"></span>
+        <span class="form-success" id="evt-tag-success" role="status" aria-live="polite"></span>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group form-group--full">
+        <label class="form-label" for="evt-description">
+          Description
+        </label>
+        <textarea
+          id="evt-description"
+          name="description"
+          class="form-input form-textarea"
+          placeholder="What is this event about?"
+          rows="3"
+          aria-describedby="evt-description-error evt-description-hint"
+          required
+        ></textarea>
+        <span class="form-hint" id="evt-description-hint">
+          Optional. Watch out for duplicate words!
+        </span>
+        <span class="form-error" id="evt-description-error" role="alert" aria-live="polite"></span>
+        <span class="form-success" id="evt-description-success" role="status" aria-live="polite"></span>
+      </div>
+    </div><!-- /.form-grid -->
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" id="cancel-create">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" id="submit-form-button">
+        <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+        Save Event
+      </button>
+    </div>
+
+  </form>
+</div>
+        </section>
+
+        <!-- SECTION: Statistics Page -->
+        <section
+          id="section-statistics"
+          class="page-section"
+          aria-labelledby="stats-heading"
+          hidden
+        >
+          <div class="section-header">
+            <div>
+              <h1 id="stats-heading" class="section-title">Statistics</h1>
+              <p class="section-subtitle">Insights across all your events</p>
+            </div>
+          </div>
+
+          <!-- Cap alert banner -->
+          <div
+            id="cap-banner"
+            class="cap-banner"
+            role="alert"
+            aria-live="assertive"
+            hidden
+          >
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span id="cap-banner-text"></span>
+          </div>
+
+          <!-- Summary stats -->
+          <div class="stats-grid" role="region" aria-label="Summary statistics">
+            <div class="stat-card">
+              <div class="stat-icon" aria-hidden="true">
+                <i class="fa-solid fa-calendar-days"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Total Events</span>
+                <span class="stat-value" id="stats-total">0</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--amber" aria-hidden="true">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Total Duration</span>
+                <span class="stat-value" id="stats-duration">0h</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--green" aria-hidden="true">
+                <i class="fa-solid fa-bullseye"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Weekly Cap</span>
+                <span class="stat-value" id="stats-cap">0/10</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tag breakdown -->
+          <div class="chart-card" role="region" aria-label="Tag breakdown">
+            <h2 class="chart-title">
+              <i class="fa-solid fa-tags" aria-hidden="true"></i>
+              Tag Breakdown
+            </h2>
+            <div id="tag-breakdown" class="tag-breakdown">
+              <!-- JS renders tag bars here -->
+            </div>
+          </div>
+
+          <!-- Duration converter -->
+          <div class="chart-card" role="region" aria-label="Duration unit converter">
+            <h2 class="chart-title">
+              <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+              Unit Converter
+            </h2>
+            <div class="converter-row">
+              <div class="form-group">
+                <label class="form-label" for="convert-hours">Hours</label>
+                <input
+                  type="number"
+                  id="convert-hours"
+                  class="form-input"
+                  placeholder="e.g. 2.5"
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+              <div class="converter-symbol" aria-hidden="true">
+                <i class="fa-solid fa-right-left"></i>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="convert-minutes">Minutes</label>
+                <input
+                  type="number"
+                  id="convert-minutes"
+                  class="form-input"
+                  placeholder="e.g. 150"
+                  min="0"
+                  step="1"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- SECTION: Settings Page ------s-->
+        <section
+          id="section-settings"
+          class="page-section"
+          aria-labelledby="settings-heading"
+          hidden
+        >
+          <div class="section-header">
+            <div>
+              <h1 id="settings-heading" class="section-title">Settings</h1>
+              <p class="section-subtitle">Configure your planner preferences</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+
+            <!-- Data management -->
+            <div class="settings-card">
+              <h2 class="settings-card-title">
+                <i class="fa-solid fa-database" aria-hidden="true"></i>
+                Data Management
+              </h2>
+              <div class="settings-row">
+                <span class="settings-row-label">Export all events</span>
+                <button class="btn btn-ghost btn-sm" id="btn-export" aria-label="Download events as JSON file (shortcut: d)">
+                  <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                  Export JSON
+                </button>
+              </div>
+              <div class="settings-row">
+                <span class="settings-row-label">Import events</span>
+                <button class="btn btn-ghost btn-sm" id="btn-import" aria-label="Upload a JSON file (shortcut: i)">
+                  <i class="fa-solid fa-file-import" aria-hidden="true"></i>
+                  Import JSON
+                </button>
+              </div>
+              <div class="settings-row">
+                <span class="settings-row-label">Clear all data</span>
+                <button class="btn btn-danger btn-sm" id="btn-clear" aria-label="Clear all events from localStorage">
+                  <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                  Clear Data
+                </button>
+              </div>
+            </div>
+
+            <!-- Preferences -->
+            <div class="settings-card">
+              <h2 class="settings-card-title">
+                <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+                Preferences
+              </h2>
+              <div class="settings-row">
+                <label class="settings-row-label" for="setting-duration-unit">
+                  Duration unit
+                </label>
+                <select id="setting-duration-unit" class="sort-preferences">
+                  <option value="hours">Hours</option>
+                  <option value="minutes">Minutes</option>
+                </select>
+              </div>
+              <div class="settings-row">
+                <label class="settings-row-label" for="setting-weekly-cap">
+                  Weekly event cap
+                </label>
+                <input
+                  type="number"
+                  id="setting-weekly-cap"
+                  class="form-input setting-input"
+                  value="10"
+                  min="1"
+                  max="100"
+                  aria-describedby="cap-hint"
+                />
+              </div>
+              <span class="form-hint" id="cap-hint">
+                You'll be alerted when you exceed this number of events per week
+              </span>
+            </div>
+
+            <!-- Keyboard shortcuts -->
+            <div class="settings-card settings-card--full">
+              <h2 class="settings-card-title">
+                <i class="fa-solid fa-keyboard" aria-hidden="true"></i>
+                Keyboard Shortcuts
+              </h2>
+              <div class="shortcuts-grid" role="list">
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Ctrl</kbd> + <kbd>i</kbd>
+                  <span>Import JSON file</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Alt</kbd> + <kbd>X</kbd>
+                  <span>Export / Download JSON</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Shift</kbd> + <kbd>W</kbd>
+                  <span>Add new event</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Del</kbd>
+                  <span>Delete selected event</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Shift</kbd> + <kbd>M</kbd>
+                  <span>Edit selected event</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Esc</kbd>
+                  <span>Close modal / cancel</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Tab</kbd>
+                  <span>Navigate elements</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>/</kbd>
+                  <span>Focus search bar</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                  <kbd>Shift</kbd> + <kbd>S</kbd>
+                  <span>Go to Statistics</span>
+                </div>
+                <div class="shortcut-item" role="listitem">
+                    <kbd>Shift</kbd> + <kbd>A</kbd>
+                    <span>Go to About page</span>
+              </div>
+              <div class="shortcut-item" role="listitem">
+                <kbd>Shift</kbd> + <kbd>H</kbd>
+                <span>Go to Home (Dashboard)</span>
+              </div>
+              <div class="shortcut-item" role="listitem">
+                <kbd>Shift</kbd> + <kbd>X</kbd>
+                <span>Go to Settings</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SECTION: ABOUT page -->
+        <section
+          id="section-about"
+          class="page-section"
+          aria-labelledby="about-heading"
+          hidden
+        >
+          <div class="section-header">
+            <div>
+              <h1 id="about-heading" class="section-title">About</h1>
+              <p class="section-subtitle">The app and who made it</p>
+            </div>
+          </div>
+
+          <div class="about-card">
+            <div class="about-icon" aria-hidden="true">
+              <i class="fa-solid fa-landmark"></i>
+            </div>
+            <h2 class="about-app-title">Campus Life Planner</h2>
+            <p class="about-description">
+              A responsive, accessible campus event tracker built with vanilla
+              HTML, CSS, and JavaScript. Manage your events, track durations,
+              filter by tags, and never miss an important date again.
+              All data is stored locally in your browser — no account needed.
+            </p>
+            <div class="about-features">
+              <div class="about-feature">
+                <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                <span>Event tracking with tags and durations</span>
+              </div>
+              <div class="about-feature">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <span>Live regex search with match highlighting</span>
+              </div>
+              <div class="about-feature">
+                <i class="fa-solid fa-chart-bar" aria-hidden="true"></i>
+                <span>Statistics dashboard with 7-day trend</span>
+              </div>
+              <div class="about-feature">
+                <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+                <span>JSON import and export</span>
+              </div>
+              <div class="about-feature">
+                <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
+                <span>Fully keyboard accessible</span>
+              </div>
+            </div>
+            <div class="about-contact">
+              <a
+                href="https://github.com/ApongsehIyan23/Summative-Assesment-CLP"
+                class="contact-chip"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile (opens in new tab)"
+              >
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
+                github.com/ApongsehIyan23
+              </a>
+              <a
+                href="mailto:your@email.com"
+                class="contact-chip"
+                aria-label="Send email"
+              >
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                a.foghang@alustudent.com
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </main><!-- /#main-content -->
+
+    </div><!-- /.main-container -->
+
+  </div><!-- /.app-wrapper -->
+
+  <!-- Bottom Navigation for Mobile UI -->
+  <nav class="bottom-nav" role="navigation" aria-label="Mobile navigation">
+    <button class="bottom-nav-item active" data-section="dashboard" aria-label="Dashboard" aria-current="page">
+      <i class="fa-solid fa-house" aria-hidden="true"></i>
+      <span>Home</span>
+    </button>
+    <button class="bottom-nav-item" data-section="create" aria-label="Create Event">
+      <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+      <span>Create</span>
+    </button>
+    <button class="bottom-nav-item" data-section="statistics" aria-label="Statistics">
+      <i class="fa-solid fa-chart-bar" aria-hidden="true"></i>
+      <span>Stats</span>
+    </button>
+    <button class="bottom-nav-item" data-section="settings" aria-label="Settings">
+      <i class="fa-solid fa-gear" aria-hidden="true"></i>
+      <span>Settings</span>
+    </button>
+    <button class="bottom-nav-item" data-section="about" aria-label="About">
+      <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+      <span>About</span>
+    </button>
+  </nav>
+  <!-- Hidden file input for JSON import -->
+  <input
+    type="file"
+    id="json-import-input"
+    accept=".json"
+    class="sr-only"
+    aria-label="Import JSON file"
+  />
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.23/lodash.min.js"></script>
+  <script type="module" src="scripts/main.js"></script>
+</body>
+</html>
